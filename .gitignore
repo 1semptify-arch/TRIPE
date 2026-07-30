@@ -1,0 +1,30 @@
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+secrets/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node
+node_modules/
+out/
+dist/
+npm-debug.log
+yarn-error.log
+
+# Python build
+*.egg-info/
+build/
+dist/
+
+# Data / logs
+*.log
+/data/inbox/
+/data/quarantine/
+/data/cases/
+bridge-config.json

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TRIPE — Tenants' Rights Integrated Protections Environment</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="ide">
+    <!-- Title bar -->
+    <header class="titlebar">
+      <div class="brand">
+        <span class="logo">TRIPE</span>
+        <span class="sub">Tenants' Rights Integrated Protections Environment</span>
+      </div>
+      <div class="titlebar-right">
+        <span id="active-case-chip" class="chip">no case selected</span>
+      </div>
+    </header>
+
+    <!-- Main grid: sidebar | center | right -->
+    <div class="grid">
+      <!-- LEFT SIDEBAR: File Explorer -->
+      <aside class="sidebar" id="sidebar">
+        <div class="pane-head">
+          <span>EXPLORER</span>
+          <button class="mini-btn" id="new-case-btn" title="New case">+ case</button>
+        </div>
+        <div class="tree" id="tree">
+          <div class="tree-section">
+            <div class="tree-folder">ACTIVE CASES</div>
+            <div id="tree-cases" class="tree-children"><div class="tree-empty">Loading…</div></div>
+          </div>
+          <div class="tree-section">
+            <div class="tree-folder">EVIDENCE FOLDER</div>
+            <div id="tree-evidence" class="tree-children"><div class="tree-empty">select a case</div></div>
+          </div>
+          <div class="tree-section">
+            <div class="tree-folder">TEMPLATES</div>
+            <div id="tree-templates" class="tree-children"></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CENTER PANE: Workspace -->
+      <main class="center">
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-tab="record">Record Evidence</button>
+          <button class="tab" data-tab="preview">Document Preview</button>
+          <button class="tab" data-tab="generate">Generate</button>
+        </div>
+
+        <div class="tab-body" id="tab-record">
+          <div class="editor-card">
+            <h2>Record Evidence & Timeline Entry</h2>
+            <p class="hint">Submit an incident to the active case. Entries are organized into a chronological event tree.</p>
+            <form id="record-form" class="form">
+              <input type="hidden" name="case_id" id="record-case-id" />
+              <label>Event timestamp
+                <input type="datetime-local" name="event_timestamp" required />
+              </label>
+              <label>Issue category
+                <select name="issue_type" required>
+                  <option>Maintenance</option>
+                  <option>Harassment</option>
+                  <option>Financial</option>
+                  <option>Entry / Privacy</option>
+                  <option>Health / Safety</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>Detailed narrative
+                <textarea name="narrative_text" rows="6" required placeholder="Describe what happened in detail — include keywords like mold, heat, deposit, entry, harassment…"></textarea>
+              </label>
+              <label>Attachment metadata (optional)
+                <input type="text" name="file_path_metadata" placeholder="e.g. photos/mold_bathroom.jpg" />
+              </label>
+              <button type="submit" class="primary">Submit to Evidence Log</button>
+            </form>
+          </div>
+
+          <div class="editor-card">
+            <h2>Case Detail</h2>
+            <div id="case-detail" class="case-detail"><div class="tree-empty">Select a case from the Explorer.</div></div>
+          </div>
+        </div>
+
+        <div class="tab-body hidden" id="tab-preview">
+          <div class="preview-head">
+            <select id="preview-action-select"><option value="">— select a generated document —</option></select>
+            <span id="preview-status" class="chip"></span>
+          </div>
+          <div id="preview-content" class="preview"><div class="tree-empty">Generate or select a document to preview.</div></div>
+
+          <div class="sign-card hidden" id="sign-card">
+            <h3>Cryptographic Signature</h3>
+            <p class="hint">Signing locks this document against further editing (signed_status = True) and attaches a SHA-256 signature hash over the content + signer + timestamp.</p>
+            <form id="sign-form" class="form inline">
+              <input type="hidden" name="action_id" id="sign-action-id" />
+              <label class="check"><input type="checkbox" name="confirm" value="yes" required /> I confirm I am signing this document</label>
+              <label>Signer name
+                <input type="text" name="signed_by" required placeholder="Your full name" />
+              </label>
+              <button type="submit" class="primary">Sign &amp; Lock</button>
+            </form>
+            <div id="sign-result" class="console-line"></div>
+          </div>
+        </div>
+
+        <div class="tab-body hidden" id="tab-generate">
+          <div class="editor-card">
+            <h2>Generate Action Document</h2>
+            <p class="hint">Pulls data from the active case + evidence log to auto-populate a complete document.</p>
+            <form id="generate-form" class="form">
+              <input type="hidden" name="case_id" id="generate-case-id" />
+              <label>Tenant of record
+                <input type="text" name="tenant_name" value="Tenant of Record" />
+              </label>
+              <label>Document type
+                <select name="action_type" required>
+                  <option value="Official_Complaint">Official Complaint (form letter)</option>
+                  <option value="Press_Release">Press Release (media alert)</option>
+                  <option value="Attorney_Packet">Attorney Packet (evidence index)</option>
+                </select>
+              </label>
+              <button type="submit" class="primary">Compile Document</button>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <!-- RIGHT SIDEBAR: Contextual Guidance & Reference -->
+      <aside class="rightbar">
+        <div class="pane-head"><span>GUIDANCE &amp; REFERENCE</span></div>
+        <div class="right-section">
+          <h3>Statute Search</h3>
+          <input type="text" id="statute-search" placeholder="search laws: mold, deposit, heat…" />
+          <div id="statute-results" class="statute-list"><div class="tree-empty">type to search</div></div>
+        </div>
+        <div class="right-section">
+          <h3>Assessment — Flagged Violations</h3>
+          <button id="run-assessment" class="ghost" disabled>Run assessment on active case</button>
+          <div id="assessment-results" class="assessment"><div class="tree-empty">select a case, then run assessment</div></div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- BOTTOM PANEL: Action Console -->
+    <footer class="console" id="console">
+      <div class="pane-head"><span>ACTION CONSOLE</span><button class="mini-btn" id="clear-console">clear</button></div>
+      <div id="console-log" class="console-log"></div>
+    </footer>
+  </div>
+
+  <!-- New case modal -->
+  <div class="modal hidden" id="case-modal">
+    <div class="modal-card">
+      <h3>New Case</h3>
+      <form id="case-form" class="form">
+        <label>Title <input type="text" name="title" required /></label>
+        <label>Landlord name <input type="text" name="landlord_name" required /></label>
+        <label>Property address <input type="text" name="property_address" required /></label>
+        <label>Status
+          <select name="status">
+            <option>Recording</option>
+            <option>Researching</option>
+            <option>Escalating</option>
+            <option>Resolved</option>
+          </select>
+        </label>
+        <div class="form-row"><button type="submit" class="primary">Create</button><button type="button" class="ghost" id="case-modal-cancel">Cancel</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
