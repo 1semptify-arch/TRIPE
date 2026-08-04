@@ -1,7 +1,10 @@
 """End-to-end smoke test of the TRIPE pipeline against the running server."""
 import json
+import os
 import urllib.request
 import urllib.parse
+
+TEST_TENANT = os.getenv("TRIPE_CASE_TENANT_NAME", "Tenant")
 
 BASE = "http://127.0.0.1:8001"
 
@@ -42,7 +45,7 @@ print(f"  matched statutes: {len(a['matched_statutes'])}")
 print("=== 4. GENERATE all 3 doc types ===")
 for atype in ("Official_Complaint", "Press_Release", "Attorney_Packet"):
     _, g = post("/workspace/generate", {
-        "case_id": 1, "action_type": atype, "tenant_name": "Bradley Smith",
+        "case_id": 1, "action_type": atype, "tenant_name": TEST_TENANT,
     })
     act = g["action"]
     print(f"  {act['action_type']} -> action #{act['id']} ({len(act['document_content'])} chars)")
@@ -51,7 +54,7 @@ print("=== 5. SIGN the latest Attorney Packet ===")
 _, case = get("/api/case/1")
 attorney = [x for x in case["actions"] if x["action_type"] == "Attorney_Packet"]
 aid = max(x["id"] for x in attorney)
-_, s = post(f"/workspace/sign/{aid}", {"signed_by": "Bradley Smith", "confirm": "yes"})
+_, s = post(f"/workspace/sign/{aid}", {"signed_by": TEST_TENANT, "confirm": "yes"})
 print(f"  {s['message']} signed={s['action']['signed_status']} valid={s['signature_valid']}")
 print(f"  sig={s['action']['signature_hash'][:24]}...")
 
