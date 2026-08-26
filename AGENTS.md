@@ -18,7 +18,7 @@ Python 3.13 · FastAPI · SQLAlchemy 2 · PostgreSQL 16 · Jinja2 · plain CSS/J
 
 ## Run
 ```powershell
-cd "E:\master-repo\sources\app-bradley-collection\tripe"
+cd "C:\master-repo\sources\app-bradley-collection\tripe"
 .\venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload
 ```
 Open http://127.0.0.1:8001. Port 8001 is TRIPE's; the Case Command Center

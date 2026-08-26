@@ -34,7 +34,7 @@ PostgreSQL is already configured. The app uses its own DB `tripe` / user
 `tripe_user` (password `tripe_pass`) — see `.env`.
 
 ```powershell
-cd "E:\master-repo\sources\app-bradley-collection\tripe"
+cd "C:\master-repo\sources\app-bradley-collection\tripe"
 .\venv\Scripts\python.exe -m pip install -r requirements.txt   # first time
 .\venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload
 ```
