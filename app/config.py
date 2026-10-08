@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://tripe_user:tripe_pass@localhost:5432/tripe")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://tripe_user:tripe_pass@10.0.0.106:5432/tripe")
 APP_HOST = os.getenv("APP_HOST", "127.0.0.1")
 APP_PORT = int(os.getenv("APP_PORT", "8013"))
 APP_ENV = os.getenv("APP_ENV", "development")
