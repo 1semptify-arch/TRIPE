@@ -19,14 +19,14 @@ Python 3.13 · FastAPI · SQLAlchemy 2 · PostgreSQL 16 · Jinja2 · plain CSS/J
 ## Run
 ```powershell
 cd "C:\master-repo\sources\app-bradley-collection\tripe"
-.\venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload
+.\venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8013 --reload
 ```
-Open http://127.0.0.1:8001. Port 8001 is TRIPE's; the Case Command Center
-uses 8000. Don't run both on the same port.
+Open http://127.0.0.1:8013. Port 8013 is TRIPE's; the Case Command Center
+uses 8018 (see C:\master-repo\PORTS.md). Don't run both on the same port.
 
 ## Verify (smoke test the full pipeline)
 ```powershell
-$Base="http://127.0.0.1:8001"
+$Base="http://127.0.0.1:8013"
 (Invoke-WebRequest "$Base/health").Content                              # {"status":"ok","app":"TRIPE"}
 (Invoke-WebRequest "$Base/api/tree").Content | ConvertFrom-Json         # 3 cases, 3 templates
 (Invoke-WebRequest "$Base/workspace/assessment/1").Content              # flags + matched statutes

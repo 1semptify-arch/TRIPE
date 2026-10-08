@@ -8,7 +8,7 @@ load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://tripe_user:tripe_pass@localhost:5432/tripe")
 APP_HOST = os.getenv("APP_HOST", "127.0.0.1")
-APP_PORT = int(os.getenv("APP_PORT", "8001"))
+APP_PORT = int(os.getenv("APP_PORT", "8013"))
 APP_ENV = os.getenv("APP_ENV", "development")
 SECRET_KEY = os.getenv("SECRET_KEY", "tripe-local-dev-secret-change-me")
 
