@@ -58,8 +58,9 @@ def _parse_dt(value: str) -> datetime:
 def workspace_page(request: Request, db: Session = Depends(get_db)):
     cases = db.query(models.Case).order_by(models.Case.created_at.desc()).all()
     return templates.TemplateResponse(
+        request,
         "workspace.html",
-        {"request": request, "cases": [c.to_dict() for c in cases]},
+        {"cases": [c.to_dict() for c in cases]},
     )
 
 

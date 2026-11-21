@@ -6,7 +6,7 @@ import urllib.parse
 
 TEST_TENANT = os.getenv("TRIPE_CASE_TENANT_NAME", "Tenant")
 
-BASE = "http://127.0.0.1:8001"
+BASE = "http://127.0.0.1:8013"
 
 
 def post(path, data: dict):

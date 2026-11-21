@@ -11,7 +11,7 @@ if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL is not set. Provide it via .env or environment.")
 
 APP_HOST = os.getenv("APP_HOST", "127.0.0.1")
-APP_PORT = int(os.getenv("APP_PORT", "8001"))
+APP_PORT = int(os.getenv("APP_PORT", "8013"))
 APP_ENV = os.getenv("APP_ENV", "development")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
